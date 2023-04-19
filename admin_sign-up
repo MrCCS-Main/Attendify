@@ -1,0 +1,25 @@
+<?php
+// Include the database connection code from a separate file
+require_once "db_conn.php";
+
+// Check if form submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Get form data
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+  $email = $_POST["email"];
+
+  // Hash the password using PHP's built-in password_hash() function
+  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+  // Insert the user data into the database
+  $sql = "INSERT INTO admin (username, password, email) VALUES ('$username', '$hashed_password', '$email')";
+  if (mysqli_query($conn, $sql)) {
+  echo "<script>alert('User created successfully.')</script>";
+  } else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  }
+}
+?>
+
+
